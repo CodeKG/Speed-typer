@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b18">
+  <meta name="description" content="SpeedType – das Neon-Tipprennen mit Freunden.">
+  <title>SpeedType — Neon Typing Race</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="SpeedType Startseite"><span class="brand-mark">S</span><span>SPEED<span class="brand-accent">TYPE</span></span></a>
+    <div class="top-actions"><span class="online-dot"></span><span id="connectionLabel">Offline-Modus</span><button class="icon-btn" id="soundToggle" aria-label="Sound umschalten" title="Sound">♫</button></div>
+  </header>
+
+  <main>
+    <section class="hero" id="homeView">
+      <div class="eyebrow"><span class="pulse"></span> MULTIPLAYER TYPING ARENA</div>
+      <h1>YOUR FINGERS.<br><span class="gradient-text">YOUR SPEED.</span></h1>
+      <p class="hero-copy">Fordere deine Freunde heraus. Tippt um die Wette und kämpft euch an die Spitze.</p>
+      <div class="home-grid">
+        <article class="panel create-panel">
+          <div class="panel-icon">⚡</div><h2>Neue Lobby</h2><p>Erstelle einen privaten Raum und lade bis zu 9 Freunde ein.</p>
+          <label for="hostName">Dein Spielername</label><input id="hostName" maxlength="18" placeholder="z. B. NeonNinja" autocomplete="nickname">
+          <button class="primary-btn" id="createRoomBtn">LOBBY ERSTELLEN <span>↗</span></button>
+        </article>
+        <article class="panel join-panel">
+          <div class="panel-icon">⌁</div><h2>Lobby beitreten</h2><p>Gib den Raumcode ein, den du von deinem Freund bekommen hast.</p>
+          <label for="guestName">Dein Spielername</label><input id="guestName" maxlength="18" placeholder="z. B. PixelPilot" autocomplete="nickname">
+          <label for="roomCode">Raumcode</label><input id="roomCode" class="code-input" maxlength="6" placeholder="ABC123" autocapitalize="characters">
+          <button class="secondary-btn" id="joinRoomBtn">BEITRETEN <span>→</span></button>
+        </article>
+      </div>
+      <div class="feature-strip"><span>✦ BIS ZU 10 SPIELER</span><span>✦ LIVE-RANGLISTE</span><span>✦ IPAD READY</span></div>
+      <p class="setup-hint" id="setupHint"></p>
+    </section>
+
+    <section class="arena hidden" id="lobbyView">
+      <div class="arena-heading">
+        <div><div class="eyebrow"><span class="pulse"></span> PRIVATE ARENA</div><h1 class="section-title">READY <span class="gradient-text">UP.</span></h1></div>
+        <button class="ghost-btn" id="leaveLobbyBtn">← Verlassen</button>
+      </div>
+      <div class="lobby-layout">
+        <article class="panel room-panel">
+          <div class="room-top"><div><span class="muted-label">DEIN RAUMCODE</span><div class="room-code" id="displayRoomCode">------</div></div><button class="copy-btn" id="copyCodeBtn">⧉ Kopieren</button></div>
+          <p class="muted">Teile den Code mit deinen Freunden. Maximal 10 Spieler pro Rennen.</p>
+          <div class="invite-row"><span id="inviteUrl"></span><button class="copy-btn" id="copyInviteBtn">Link kopieren</button></div>
+          <div class="players-header"><h3>SPIELER</h3><span id="playerCount">0 / 10</span></div>
+          <div class="players-list" id="playersList"></div>
+          <div class="lobby-controls" id="hostControls"><label for="difficulty">Text-Level</label><select id="difficulty"><option value="easy">Chill</option><option value="medium" selected>Normal</option><option value="hard">Insane</option></select><button class="primary-btn" id="startRaceBtn">RENNEN STARTEN <span>⚡</span></button></div>
+          <p class="tiny-note" id="lobbyNote">Der Host startet das Rennen, sobald alle bereit sind.</p>
+        </article>
+        <aside class="panel leaderboard-panel"><div class="side-title">🏆 <span>ARENA BOARD</span></div><p class="muted">Live-Status deiner Lobby</p><div class="big-stat" id="lobbyPlayerStat">1<span>/10</span></div><div class="muted">Spieler in der Arena</div><div class="divider"></div><div class="side-tip"><span class="tip-icon">⌨</span><div><b>Pro-Tipp</b><p>Auf dem iPad kannst du eine externe Tastatur verwenden. Die Bildschirmtastatur funktioniert ebenfalls.</p></div></div></aside>
+      </div>
+    </section>
+
+    <section class="race-view hidden" id="raceView">
+      <div class="race-top"><div><div class="eyebrow"><span class="pulse"></span> LIVE RACE</div><h1 class="section-title">TYPE <span class="gradient-text">FASTER.</span></h1></div><div class="race-meta"><div><span class="muted-label">ROOM</span><b id="raceRoomCode">------</b></div><div><span class="muted-label">TIME</span><b id="raceTimer">00:00</b></div></div></div>
+      <div class="countdown hidden" id="countdown">3</div>
+      <div class="race-layout">
+        <div class="race-main panel">
+          <div class="race-progress-head"><span>DEIN FORTSCHRITT</span><b id="myProgressLabel">0%</b></div>
+          <div class="progress-track"><div class="progress-fill" id="myProgressBar"></div></div>
+          <div class="typing-text" id="typingText"></div>
+          <label class="muted-label" for="typingInput">TIPPE DEN TEXT HIER</label>
+          <textarea id="typingInput" rows="3" placeholder="Warte auf den Start..." autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" disabled></textarea>
+          <div class="typing-stats"><div><b id="liveWpm">0</b><span>WPM</span></div><div><b id="liveAccuracy">100%</b><span>GENAUIGKEIT</span></div><div><b id="liveChars">0</b><span>ZEICHEN</span></div></div>
+        </div>
+        <aside class="panel race-board"><div class="side-title">🏁 <span>LIVE RANKING</span></div><div id="raceLeaderboard" class="race-leaderboard"></div></aside>
+      </div>
+    </section>
+
+    <section class="results-view hidden" id="resultsView">
+      <div class="eyebrow"><span class="pulse"></span> RACE COMPLETE</div><h1 class="section-title">RACE <span class="gradient-text">RESULTS.</span></h1>
+      <div class="winner-card panel"><div class="winner-crown">♛</div><div class="muted-label">FASTEST FINGERS</div><h2 id="winnerName">Champion</h2><div class="winner-wpm" id="winnerWpm">0 <small>WPM</small></div></div>
+      <div class="panel results-panel"><div class="side-title">🏆 <span>FINAL LEADERBOARD</span></div><div id="finalLeaderboard" class="race-leaderboard"></div><div class="result-actions"><button class="primary-btn" id="raceAgainBtn">NOCH EINE RUNDE ↻</button><button class="ghost-btn" id="backHomeBtn">ZUR STARTSEITE</button></div></div>
+    </section>
+  </main>
+
+  <footer><span>© 2026 SPEEDTYPE</span><span>MADE FOR THE LOVE OF SPEED <b>✦</b></span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
